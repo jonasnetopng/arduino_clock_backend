@@ -21,8 +21,6 @@ app.get("/dados", (req, res) => {
   try {
     axios.get(url).then((response) => {
       const data = response.data;
-      const now = new Date();
-      const year = now.getFullYear().toString().substr(-2);
       function farh_to_celsius(farh) {
         return ((farh - 32) * 5) / 9;
       }
@@ -30,17 +28,23 @@ app.get("/dados", (req, res) => {
         temp: parseInt(farh_to_celsius(data.main.temp).toFixed(1)),
         state: (data.weather[0].main).toLowerCase(),
       };
-      res.json({
-        weather,
-        time: {
-          hour: now.getHours(),
-          min: now.getMinutes(),
-          sec: now.getSeconds(),
-          year: parseInt(year),
-          month: now.getMonth(),
-          day: now.getDate(),
-          weekday: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"][now.getDay()],
-        },
+      axios.get("http://worldtimeapi.org/api/timezone/America/Sao_Paulo").then((response) => {
+        const { data: { datetime, day_of_year } } = response;
+        const date = new Date(datetime);
+
+        res.json({
+          weather,
+          time: {
+            hour: date.getHours(),
+            min: date.getMinutes(),
+            sec: date.getSeconds(),
+            year: date.getFullYear(),
+            month: date.getMonth(),
+            day: date.getDate(),
+            day_of_year,
+
+          },
+        });
       });
     });
   } catch (error) {
