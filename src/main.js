@@ -42,8 +42,11 @@ app.get("/dados", (req, res) => {
             month: date.getMonth(),
             day: date.getDate(),
             day_of_year,
-
           },
+          alarm: {
+            hour: 23,
+            min: 59,
+          }
         });
       });
     });
