@@ -6,7 +6,12 @@ const axios = require("axios");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  methods: "GET,POST,PUT,DELETE",
+  allowedHeaders: "Content-Type, Authorization, X-Requested-With",
+  exposedHeaders: "Content-Range, X-Total-Count"
+}));
 
 const url =
   "https://api.openweathermap.org/data/2.5/weather?q=Curitiba&units=imperial&appid=76c8fdc8db07e476c13e988cb7a5690d";
