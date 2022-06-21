@@ -29,15 +29,19 @@ app.get("/dados", (req, res) => {
         state: (data.weather[0].main).toLowerCase(),
       };
       axios.get("http://worldtimeapi.org/api/timezone/America/Sao_Paulo").then((response) => {
-        const { data: { datetime, day_of_year } } = response;
-        const date = new Date(datetime);
+        const { data: { utc_datetime, day_of_year, unixtime } } = response;
+        const date = new Date(unixtime * 1000);
+        const date_time = new Date(utc_datetime);
+        const hour = date_time.getHours();
+        const min = date_time.getMinutes();
+        const sec = date_time.getSeconds();
 
         res.json({
           weather,
           time: {
-            hour:date.getHours(),
-            min: date.getMinutes(),
-            sec: date.getSeconds(),
+            hour,
+            min,
+            sec,
             year: date.getFullYear(),
             month: date.getMonth(),
             day: date.getDate(),
@@ -54,9 +58,6 @@ app.get("/dados", (req, res) => {
     res.json({ error })
   }
 });
-
-// const char *ssid = "ALHN-B945";
-// const char *password = "escola91148229";
 
 app.listen(port, () => {
   console.log("Example app listening on port " + port);
