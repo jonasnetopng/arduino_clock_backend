@@ -35,8 +35,8 @@ app.get("/dados", (req, res) => {
         res.json({
           weather,
           time: {
-            hour: date.getHours(),
-            min: date.getMinutes(),
+            hour: 23,//date.getHours(),
+            min: 59,//date.getMinutes(),
             sec: date.getSeconds(),
             year: date.getFullYear(),
             month: date.getMonth(),
