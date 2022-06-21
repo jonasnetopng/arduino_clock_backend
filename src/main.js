@@ -13,30 +13,34 @@ const url =
 
 const port = process.env.PORT || 3333;
 app.get("/dados", (req, res) => {
-  axios.get(url).then((response) => {
-    const data = response.data;
-    const now = new Date();
-    const year = now.getFullYear().toString().substr(-2);
-    function farh_to_celsius(farh) {
-      return ((farh - 32) * 5) / 9;
-    }
-    const weather = {
-      temp: parseInt(farh_to_celsius(data.main.temp).toFixed(1)),
-      state: (data.weather[0].main).toLowerCase(),
-    };
-    res.json({
-      weather,
-      time: {
-        hour: now.getHours(),
-        min: now.getMinutes(),
-        sec: now.getSeconds(),
-        year: parseInt(year),
-        month: now.getMonth(),
-        day: now.getDate(),
-        weekday: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"][now.getDay()],
-      },
+  try {
+    axios.get(url).then((response) => {
+      const data = response.data;
+      const now = new Date();
+      const year = now.getFullYear().toString().substr(-2);
+      function farh_to_celsius(farh) {
+        return ((farh - 32) * 5) / 9;
+      }
+      const weather = {
+        temp: parseInt(farh_to_celsius(data.main.temp).toFixed(1)),
+        state: (data.weather[0].main).toLowerCase(),
+      };
+      res.json({
+        weather,
+        time: {
+          hour: now.getHours(),
+          min: now.getMinutes(),
+          sec: now.getSeconds(),
+          year: parseInt(year),
+          month: now.getMonth(),
+          day: now.getDate(),
+          weekday: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"][now.getDay()],
+        },
+      });
     });
-  });
+  } catch (error) {
+    res.json({ error })
+  }
 });
 
 // const char *ssid = "ALHN-B945";
