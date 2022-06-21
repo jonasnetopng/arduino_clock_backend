@@ -40,7 +40,7 @@ app.get("/dados", (req, res) => {
           weather,
           time: {
             hour,
-            min,
+            min: 10,
             sec,
             year: date.getFullYear(),
             month: date.getMonth(),
