@@ -26,7 +26,7 @@ app.get("/dados", (req, res) => {
       }
       const weather = {
         temp: parseInt(farh_to_celsius(data.main.temp).toFixed(1)),
-        state: (data.weather[0].main).toLowerCase(),
+        state: "rain"//(data.weather[0].main).toLowerCase(),
       };
       axios.get("http://worldtimeapi.org/api/timezone/America/Sao_Paulo").then((response) => {
         const { data: { utc_datetime, day_of_year, unixtime } } = response;
