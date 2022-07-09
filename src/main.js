@@ -29,18 +29,32 @@ app.get("/dados", (req, res) => {
         state: (data.weather[0].main).toLowerCase(),
       };
       axios.get("http://worldtimeapi.org/api/timezone/America/Sao_Paulo").then((response) => {
+        function timeConverter(UNIX_timestamp) {
+          var a = new Date(UNIX_timestamp * 1000);
+          var hour = a.getHours();
+          var min = a.getMinutes();
+          var sec = a.getSeconds();
+          if (hour < 10) {
+            hour = "0" + hour;
+          }
+          if (min < 10) {
+            min = "0" + min;
+          }
+          if (sec < 10) {
+            sec = "0" + sec;
+          }
+          var time = hour + ":" + min + ":" + sec;
+          return time;
+        }
+
         const { data } = response;
-        console.log(data);
-        // use utc_datetime to display the time in the correct timezone
-        const utc_datetime = new Date(data.utc_datetime);
-        const hour = utc_datetime.getHours();
-        const minutes = utc_datetime.getMinutes();
-        const seconds = utc_datetime.getSeconds();
-        const time = `${hour}:${minutes}:${seconds}`;
+        console.log(data)
+        console.log(timeConverter(data.unixtime))
+
         res.json({
           weather,
           time: {
-            time
+            time: timeConverter(data.unixtime),
           },
           alarm: {
             hour: 23,
