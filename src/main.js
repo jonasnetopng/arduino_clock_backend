@@ -39,9 +39,8 @@ app.get("/dados", (req, res) => {
         res.json({
           weather,
           time: {
-            hour,
-            min,
-            sec,
+            time: `${hour}:${min}:${sec}`,
+            time2: `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
             year: date.getFullYear(),
             month: date.getMonth(),
             day: date.getDate(),
@@ -58,6 +57,9 @@ app.get("/dados", (req, res) => {
     res.json({ error })
   }
 });
+
+// const char *ssid = "ALHN-B945";
+// const char *password = "escola91148229";
 
 app.listen(port, () => {
   console.log("Example app listening on port " + port);
